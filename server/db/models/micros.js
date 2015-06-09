@@ -12,8 +12,8 @@ var microsSchema = new mongoose.Schema({
 	available: {type: String, required: true}, //if it is in stock at all.
 });
 
+var Micros = mongoose.model('Micros', microsSchema);
+
 microsSchema.methods.addMicro = function (params){
 	return Micros.create(params);
 }
-
-var Micros = mongoose.model('Micros', microsSchema);

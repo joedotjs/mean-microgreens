@@ -9,9 +9,9 @@ var orderSchema = new mongoose.Schema({
 	status: {type: String, required: true}
 })
 
+var Order = mongoose.model('Order', orderSchema);
+
 orderSchema.methods.submitOrder = function (order){
-	order.date = new Date();
+	order.dateOrdered = new Date();
 	return Order.create(order);
 }
-
-var Order = mongoose.model('Order', orderSchema);
