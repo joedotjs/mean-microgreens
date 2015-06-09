@@ -1,15 +1,15 @@
 var mongoose = require ('mongoose');
 
 var microsSchema = new mongoose.Schema({
-	name: {type: String, required: true}, //name of veggie
-	spice: {type: String, required: true}, //spice level
-	price: {type: Number, required: true}, //price (if we want to sell by bulk later)
+	name: String, //name of veggie
+	spice: String, //spice level
+	price: Number, //price (if we want to sell by bulk later)
 	info: { // information and picture of veggie
-		background: {type: String, required: true},
+		background: String,
 		image: String
 	},
-	inventory: {type: Number, required: true}, //how much we have in stock
-	available: {type: String, required: true}, //if it is in stock at all.
+	inventory: Number, //how much we have in stock
+	available: Boolean, //if it is in stock at all.
 });
 
 var Micros = mongoose.model('Micros', microsSchema);
