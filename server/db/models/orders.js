@@ -1,8 +1,11 @@
 var mongoose = require ('mongoose');
 
 var orderSchema = new mongoose.Schema({
-	user: {type: Schema.Types.ObjectId, ref: 'User'},
-	contents: [{type: Schema.Types.ObjectId, ref: 'Blend'}],
+	user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+	contents: [{
+		typeofblend: {type: mongoose.Schema.Types.ObjectId, ref: 'Blend'}, 
+		quantity: Number
+	}],
 	status: {type: String, required: true}
 })
 
@@ -11,4 +14,4 @@ orderSchema.methods.submitOrder = function (order){
 	return Order.create(order);
 }
 
-var Order = mongoose.model('Order', OrderSchema);
+var Order = mongoose.model('Order', orderSchema);

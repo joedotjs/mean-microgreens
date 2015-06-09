@@ -58,5 +58,3 @@ schema.method('correctPassword', function (candidatePassword) {
 });
 
 var User = mongoose.model('User', schema);
-
-module.export = User;

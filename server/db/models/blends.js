@@ -3,10 +3,10 @@ var mongoose = require ('mongoose');
 
 
 var blendSchema = new mongoose.Schema({
-	name: {type: String},
-	micros: [{type: Schema.Types.ObjectId, ref: 'Micros'}],
-	review: [{type: Schema.Types.ObjectId, ref: 'Review'}],
-	price: {type: Number}
+	name: String, //name of blend e.g. "joe's mega blend"
+	micros: [{type: mongoose.Schema.Types.ObjectId, ref: 'Micros'}], //the types of micros stored in array
+	review: [{type: mongoose.Schema.Types.ObjectId, ref: 'Review'}], //the reviews for this blend stored in array
+	price: Number //only two prices possible: small or LARGE
 })
 
 var Blend = mongoose.model('Blend', blendSchema);
