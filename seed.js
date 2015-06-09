@@ -23,6 +23,7 @@ var mongoose = require('mongoose');
 var connectToDb = require('./server/db');
 var User = mongoose.model('User');
 var Micros = mongoose.model('Micros');
+var Blend = mongoose.model('Blend')
 var q = require('q');
 var chalk = require('chalk');
 
@@ -30,8 +31,12 @@ var getCurrentUserData = function () {
     return q.ninvoke(User, 'find', {});
 };
 
-var getSeedMicroData = function () {
+var getMicroData = function () {
     return q.ninvoke(Micros, 'find', {});
+};
+
+var getBlendData = function () {
+    return q.ninvoke(Blend, 'find', {});
 };
 
 var seedUsers = function () {
@@ -168,95 +173,20 @@ var seedMicros = function () {
 
     return q.invoke(Micros, 'create', micros);
 
-}
+};
 
-// var seedBlends = function () {
-//     var blends = [
-//     {
-//         name: "Joe's Mega Blend",
-//         micros: [
-//         {
-//             name: 'Lettuce',
-//             info: {
-//                 background: 'You can put this shit on everything',
-//                 image: 'http://www.microgreengarden.com/photos/LETTUCE-Endive-Escarole-microgreens-Asteraceae-Family-of-Leafy-Greens/05-AsteraceaeFamilyLettuceEndive-16Lettuce-romaine-red10day.jpg'
-//             }
-//         },
-//         {
-//             name: 'Swiss Chard',
-//             info: {
-//                 background: 'Skinny watermelon',
-//                 image: 'http://cdn1.johnnyseeds.com/images/Product/large/702MG.jpg'
-//             }
-//         },
-//         {
-//             name: 'Mustard Greens',
-//             info: {
-//                 background: 'Gives you smooth poop',
-//                 image: 'http://cdn2.johnnyseeds.com/images/product/large/2797M.jpg'
-//             }
-//         },
-//         {
-//             name: 'Spinach',
-//             info: {
-//                 background: 'This should be your vegetable of choice if you are Popeye!',
-//                 image: 'http://cdn2.johnnyseeds.com/images/product/large/363MG.jpg'
-//             }
-//         },
-//         {
-//             name: 'Broccoli',
-//             info: {
-//                 background: 'The vegetable that your parents always told you to eat',
-//                 image: 'http://www.profproduce.com/wp-content/uploads/2013/04/Broccoli.jpg'
-//             }
-//         }
-//         ],
-//         price: 12
-//     },
-//     {
-//         name: "MEAN Greens Classic",
-//         micros: [
-//         {
-//             name: 'Cressida Cress',
-//             info: {
-//                 background: 'Pretty, but bitter, like your ex',
-//                 image: 'http://cdn1.johnnyseeds.com/images/product/large/382M.jpg'
-//             }
-//         },
-//         {
-//             name: 'Swiss Chard',
-//             info: {
-//                 background: 'Skinny watermelon',
-//                 image: 'http://cdn1.johnnyseeds.com/images/Product/large/702MG.jpg'
-//             }
-//         },
-//         {
-//             name: 'Mustard Greens',
-//             info: {
-//                 background: 'Gives you smooth poop',
-//                 image: 'http://cdn2.johnnyseeds.com/images/product/large/2797M.jpg'
-//             }
-//         },
-//         {
-//             name: 'Spinach',
-//             info: {
-//                 background: 'This should be your vegetable of choice if you are Popeye!',
-//                 image: 'http://cdn2.johnnyseeds.com/images/product/large/363MG.jpg'
-//             }
-//         },
-//         {
-//             name: 'Broccoli',
-//             info: {
-//                 background: 'The vegetable that your parents always told you to eat',
-//                 image: 'http://www.profproduce.com/wp-content/uploads/2013/04/Broccoli.jpg'
-//             }
-//         }
-//         ],
-//         price: 12
-//     }
-//     ];
-// }
+var seedBlends = function (jArr, mArr, sArr, msArr){
 
+    var blend = [
+    {name: "Joe's Mega Blend", price: 12, micros: jArr},
+    {name: "MEAN Greens Classic", price: 12, micros: mArr},
+    {name: "Skinny Mini", price: 8, micros: sArr},
+    {name: "Mini Spice", price: 8, micros: msArr}
+    ];
+
+    return q.invoke(Blend, 'create', blend);
+
+};
 
 
 connectToDb.then(function () {
@@ -269,7 +199,7 @@ connectToDb.then(function () {
         // }
         return users.length ? users : seedUsers();
     });
-    var seededMicros = getSeedMicroData().then(function(micros){
+    var seededMicros = getMicroData().then(function (micros) {
         // if (micros.length === 0) {
         //     return seedMicros();
         // } else {
@@ -277,9 +207,52 @@ connectToDb.then(function () {
         //     return micros;
         // }
         return micros.length ? micros : seedMicros();
-    })
+    });
+    // var seededBlends = getBlendData().then(function (blends) {
+    //     return blends.length ? blends : seedBlends();
+    // })
     return q.all([seededUsers, seededMicros])
 }).spread(function (users, micros){
-    console.log('all seeded', micros)
-    process.kill(0)
+    // console.log(micros);
+    console.log('MEOWWWWWW')
+    var jA = function (){
+        var arr = [];
+        for (var i=0; i<micros.length-5; i++){
+            arr.push(micros[i]._id);
+        }
+        return arr;
+    }
+    var mA = function () {
+        var arr = [];
+        for (var i=5; i<micros.length; i++){
+            arr.push(micros[i]._id);
+        }
+        return arr;
+    }
+    var sA = function () {
+        var arr = [];
+        for (var i=3; i<micros.length-4; i++){
+            arr.push(micros[i]._id);
+        }
+        return arr;
+    }
+    var msA = function () {
+        var arr = [];
+        arr.push(micros[8]._id, micros[1]._id, micros[3]._id);
+        return arr;
+    }
+    return getBlendData().then(function (blends) {
+        console.log(blends.length);
+        return blends.length ? blends : seedBlends(jA(), mA(), sA(), msA());
+    });
+}).then(function (blends){
+    console.log(blends);
+    process.kill(0);
 }).catch(console.error);
+
+// .then(function (){
+//     var seededBlends = getBlendData().then(function (blends) {
+//         return blends.length ? blends : seedBlends();
+//     });
+//     process.kill(0);
+// })
