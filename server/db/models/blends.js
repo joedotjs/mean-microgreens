@@ -10,5 +10,3 @@ var blendSchema = new mongoose.Schema({
 })
 
 var Blend = mongoose.model('Blend', blendSchema);
-
-module.export = Blend;

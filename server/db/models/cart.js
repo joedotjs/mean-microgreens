@@ -6,5 +6,3 @@ var cartSchema = new mongoose.Schema({
 })
 
 var Cart = mongoose.model('Cart', cartSchema);
-
-module.export = Cart;

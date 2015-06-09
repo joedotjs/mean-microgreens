@@ -14,5 +14,3 @@ microSchema.methods.addMicro = function (params){
 }
 
 var Micros = mongoose.model('Micros', microSchema);
-
-module.export = Micro;

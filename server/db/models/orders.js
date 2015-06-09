@@ -12,5 +12,3 @@ orderSchema.methods.submitOrder = function (order){
 }
 
 var Order = mongoose.model('Order', OrderSchema);
-
-module.export = Order;
