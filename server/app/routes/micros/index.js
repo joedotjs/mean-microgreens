@@ -11,7 +11,15 @@ router.get('/', function (req, res, next){
 		micros.find({"_id": req.query.microid}, function(err, micros){
 			res.json(micros);
 		});
-	} else {
+	} 
+
+	else if (req.query.microName) { //finding by name
+		micros.find({'name': req.query.microName}, function (err, micro) {
+			res.json(micro);
+		})
+	}
+
+	else {
 		micros.find({}, function(err, micros){
 			res.json(micros);
 		});

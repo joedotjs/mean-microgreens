@@ -9,9 +9,18 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('AboutController', function ($scope, FullstackPics) {
+app.controller('AboutController', function ($scope, FullstackPics, AjaxFactory) {
 
     // Images of beautiful Fullstack people.
     $scope.images = _.shuffle(FullstackPics);
+    $scope.micros = "hello"
+
+    $scope.getAllMicros = function () {
+    	console.log("meow");
+    	AjaxFactory.getMicros().then(function (micros) {
+    		$scope.micros = micros;
+    	});
+    }
+
 
 });
