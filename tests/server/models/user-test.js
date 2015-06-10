@@ -6,8 +6,16 @@ var expect = require('chai').expect;
 var mongoose = require('mongoose');
 
 require('../../../server/db/models/user');
+require('../../../server/db/models/blends');
+require('../../../server/db/models/micros');
+require('../../../server/db/models/orders');
+require('../../../server/db/models/reviews');
 
 var User = mongoose.model('User');
+var Blend = mongoose.model('Blend');
+var Micros = mongoose.model('Micros');
+var Order = mongoose.model('Order');
+var Review = mongoose.model('Review');
 
 describe('User model', function () {
 
