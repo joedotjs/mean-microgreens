@@ -7,10 +7,15 @@ module.exports = router;
 
 // get all blends if there is a query for a specific blend, get that blend
 router.get('/', function (req, res, next){
-	console.log(req.query.id);
-	blends.findOne({"_id": req.query.blendid}, function(err, blends){
-		res.json(blends);
-	});
+	if(req.query.blendid){
+		blends.find({"_id": req.query.blendid}, function(err, blends){
+			res.json(blends);
+		});
+	} else {
+		blends.find({}, function(err, blends){
+			res.json(blends);
+		});
+	}
 }); 
 
 // we need to build admin only posting routes
@@ -37,7 +42,7 @@ router.put('/:blendid', function (req, res, next){
 
 // delete this blend
 router.delete('/:blendid', function (req, res, next){
-	blends.findOne({"_id": req.blendid}, function(err, blend){
+	blends.findById(req.params.blendid, function(err, blend){
 		blend.remove(function(err){
 			res.status(204).send();
 		});

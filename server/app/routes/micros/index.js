@@ -7,9 +7,15 @@ module.exports = router;
 
 //Get all micros or specific micro
 router.get('/', function (req, res, next){
-	micros.find({"_id": req.query.microid}, function(err, micros){
-		res.json(micros);
-	});
+	if(req.query.microid){
+		micros.find({"_id": req.query.microid}, function(err, micros){
+			res.json(micros);
+		});
+	} else {
+		micros.find({}, function(err, micros){
+			res.json(micros);
+		});
+	}
 }); 
 
 // we need to build admin only posting routes 

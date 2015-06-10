@@ -2,7 +2,7 @@
 var path = require('path');
 var express = require('express');
 var app = express();
-module.exports = app;
+
 
 // Pass our express application pipeline into the configuration
 // function located at server/app/configure/index.js
@@ -38,3 +38,5 @@ app.use(function (err, req, res) {
     // console.error(err);
     res.status(err.status || 500).send(err.message || 'Internal server error.');
 });
+
+module.exports = app;
