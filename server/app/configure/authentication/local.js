@@ -19,6 +19,24 @@ module.exports = function (app) {
         });
     };
 
+    app.get('/signup', function (req, res) {
+    console.log('hit the /signup get route!');
+    res.json();
+    });
+
+    app.post('/signup', function (req, res, next) {
+        console.log('hit the /signup post route!');
+        UserModel.create(req.body, function (err, user) {
+            if (err) next(err);
+            else {
+                console.log('this is req.session', req.session);
+                console.log('this is user', user);
+                req.session.userId = user._id;
+                res.json();
+            }
+        });
+    });
+
     passport.use(new LocalStrategy({ usernameField: 'email', passwordField: 'password' }, strategyFn));
 
     // A POST /login route is created to handle login.
