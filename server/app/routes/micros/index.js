@@ -5,6 +5,11 @@ var micros = mongoose.model('Micros');
 
 module.exports = router;
 
+function hasAdminPower(req, res, next){
+	if (req.user.admin === true) next();
+	else res.status(403).end();
+}
+
 //Get all micros or specific micro
 router.get('/', function (req, res, next){
 	if(req.query.microid){
@@ -19,14 +24,14 @@ router.get('/', function (req, res, next){
 }); 
 
 // we need to build admin only posting routes 
-router.post('/', function (req, res, next){
+router.post('/', hasAdminPower, function (req, res, next){
 	var micro = new micros(req.body);
 	micro.save(function(err){
 		res.status(200).send(micro);
 	});
 });
 
-router.put('/:microid', function (req, res, next){
+router.put('/:microid', hasAdminPower, function (req, res, next){
 	micros.findOne({"_id": req.params.microid}, function(err, micro){
 		for(var key in req.body){
 			micro[key] = req.body[key];
@@ -37,7 +42,7 @@ router.put('/:microid', function (req, res, next){
 	});
 });
 
-router.delete('/:microid', function (req, res, next){
+router.delete('/:microid', hasAdminPower, function (req, res, next){
 	micros.findOne({"_id": req.params.microid}, function(err, micro){
 		micro.remove(function(err){
 			res.status(204).send();

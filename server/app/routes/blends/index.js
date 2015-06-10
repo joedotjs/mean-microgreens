@@ -6,17 +6,11 @@ var UserModel = mongoose.model('User');
 
 module.exports = router;
 
-
-function hasAdminPower(){
-	if (req.user.admin === true);
-	else res.status(403);
-}
-
 function isAuthenticated (req, res, next) {
 	//want to work for passport and local login
 	//req.session.userId
 	if (req.user) next();
-	else res.status(403);
+	else res.status(403).end();
 }
 
 // get all blends if there is a query for a specific blend, get that blend
@@ -42,6 +36,7 @@ router.post('/', function (req, res, next){
 	});
 });
 
+//they should be able to edit their own blend but not our defaults
 //edits this blend
 router.put('/:blendid', function (req, res, next){
 	blends.findOne({"_id": req.params.blendid}, function(err, blend){
@@ -55,7 +50,7 @@ router.put('/:blendid', function (req, res, next){
 });
 
 // delete this blend
-router.delete('/:blendid', function (req, res, next){
+router.delete('/:blendid', hasAdminPower, function (req, res, next){
 	blends.findById(req.params.blendid, function(err, blend){
 		blend.remove(function(err){
 			res.status(204).send();
