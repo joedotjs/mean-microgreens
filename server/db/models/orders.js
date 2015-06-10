@@ -1,16 +1,11 @@
 var mongoose = require ('mongoose');
 
 var orderSchema = new mongoose.Schema({
-	contents: [{
-		typeofblend: {type: mongoose.Schema.Types.ObjectId, ref: 'Blend'}, 
+	blend: [{
+		typeofblend: {type: mongoose.Schema.Types.ObjectId, ref: 'Blends'}, 
 		quantity: Number
 	}],
-	status: {type: String, required: true}
+	status: {type: String, enum: ['created', 'processing', 'cancelled', 'completed'],required: true}
 })
 
 var Order = mongoose.model('Order', orderSchema);
-
-orderSchema.methods.submitOrder = function (order){
-	order.dateOrdered = new Date();
-	return Order.create(order);
-}
