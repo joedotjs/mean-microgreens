@@ -9,9 +9,15 @@ var reviews = mongoose.model('Review');
 module.exports = router;
 
 router.get('/', function (req, res, next){
-	reviews.find({"_id": req.query.reviewid}, function(err, reviews){
-		res.json(reviews);
-	});
+	if(req.query.reviewid){
+		reviews.find({"_id": req.query.reviewid}, function(err, reviews){
+			res.json(reviews);
+		});
+	} else {
+		reviews.find({}, function(err, reviews){
+			res.json(reviews);
+		});
+	}
 }); 
 
 // we need to build admin only posting routes 

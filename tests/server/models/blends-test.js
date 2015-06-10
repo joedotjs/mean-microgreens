@@ -7,7 +7,7 @@ var mongoose = require('mongoose');
 var supertest = require('supertest');
 //var app = require('../../../server/app/routes/index.js');
 var express = require('express');
-var agent = supertest.agent(express());
+var agent = supertest.agent(app);
 
 require('../../../server/db/models/user');
 require('../../../server/db/models/blends');

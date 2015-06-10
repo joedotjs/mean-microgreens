@@ -6,9 +6,15 @@ var orders = mongoose.model('Order');
 module.exports = router;
 
 router.get('/', function (req, res, next){
-	orders.find({"_id": req.query.orderid}, function(err, order){
-		res.json(order);
-	});
+	if(req.query.orderid){
+		orders.find({"_id": req.query.orderid}, function(err, orders){
+			res.json(orders);
+		});
+	} else {
+		orders.find({}, function(err, orders){
+			res.json(orders);
+		});
+	}
 }); 
 
 // we need to build admin only posting routes 

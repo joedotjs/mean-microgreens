@@ -21,7 +21,6 @@ router.get('/', function (req, res, next){
 // we need to build admin only posting routes
 // creates new blend and returns new blend
 router.post('/', function (req, res, next){
-	console.log(req.body);
 	var blend = new blends(req.body);
 	blend.save(function(err){
 		res.status(200).send(blend);
