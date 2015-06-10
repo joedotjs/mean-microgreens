@@ -1,19 +1,16 @@
 var mongoose = require ('mongoose');
 
 var microsSchema = new mongoose.Schema({
-	name: String, //name of veggie
-	spice: String, //spice level
-	price: Number, //price (if we want to sell by bulk later)
-	info: { // information and picture of veggie
-		background: String,
-		image: String
-	},
-	inventory: Number, //how much we have in stock
-	available: Boolean, //if it is in stock at all.
+	name: {type: String, required: true}, //name of veggie
+	spice: {type: String, enum: ['mild', 'medium', 'medium-spicy', 'spicy'], required: true}, //spice level
+	price: {type: Number, required: true}, //price (if we want to sell by bulk later)
+	description: {type: String, required: true},
+	image: {type: String, required: true},
+	inventory: {type: Number, required: true, min: 0}, //how much we have in stock
 });
 
-var Micros = mongoose.model('Micros', microsSchema);
+microsSchema.virtual('available').get(function () {
+	return this.inventory > 0 ? true : false;
+})
 
-microsSchema.methods.addMicro = function (params){
-	return Micros.create(params);
-}
+var Micros = mongoose.model('Micros', microsSchema);
