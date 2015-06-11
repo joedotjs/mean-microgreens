@@ -11,6 +11,6 @@ var microSchema = new mongoose.Schema({
 
 microSchema.virtual('available').get(function () {
 	return this.inventory > 0 ? true : false;
-})
+});
 
 var Micro = mongoose.model('Micro', microSchema);
