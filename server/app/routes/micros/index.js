@@ -1,54 +1,81 @@
 var router = require('express').Router();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var micros = mongoose.model('Micros');
+var Micros = mongoose.model('Micros');
 
 module.exports = router;
 
-//Get all micros or specific micro
+// get all Micros
 router.get('/', function (req, res, next){
-	if(req.query.microid){
-		micros.find({"_id": req.query.microid}, function(err, micros){
+	Micros.find({}).exec()
+	.then(
+		function (micros){
 			res.json(micros);
-		});
-	} 
+		}, 
+		function (err){
+			next(err);
+		}
+	);
+});
 
-	else if (req.query.microName) { //finding by name
-		micros.find({'name': req.query.microName}, function (err, micro) {
+//get micro with microid 
+router.get('/:microid', function (req, res, next){
+	Micros.findById(req.params.microid).exec()
+	.then(
+		function (micro){
 			res.json(micro);
-		})
-	}
+		},
+		function (err){
+			next(err);
+		}
+	);
+});
 
-	else {
-		micros.find({}, function(err, micros){
-			res.json(micros);
-		});
-	}
-}); 
+//get micro with microname
+router.get('/name/:microname', function (req, res, next){
+	Micros.findOne({name: req.params.microname}).exec()
+	.then(
+		function (micro){
+			res.json(micro);
+		},
+		function (err){
+			next(err);
+		}
+	);
+});
 
-// we need to build admin only posting routes 
+
+// we need to build admin only posting routes
+// creates new micro and returns new micro
 router.post('/', function (req, res, next){
-	var micro = new micros(req.body);
+	var micro = new Micros(req.body);
 	micro.save(function(err){
 		res.status(200).send(micro);
 	});
-});
+}); 
 
+//edits this micro
 router.put('/:microid', function (req, res, next){
-	micros.findOne({"_id": req.params.microid}, function(err, micro){
-		for(var key in req.body){
-			micro[key] = req.body[key];
-		}
-		micro.save(function(err){
+	Micros.findByIdAndUpdate(req.params.microid, req.body).exec()
+	.then(
+		function (micro){
 			res.status(200).send(micro);
-		});
-	});
+		},
+		function (err){
+			next(err);
+		}
+	);
 });
 
+// delete this micro
 router.delete('/:microid', function (req, res, next){
-	micros.findOne({"_id": req.params.microid}, function(err, micro){
-		micro.remove(function(err){
+	Micros.findByIdAndRemove(req.params.microid).exec()
+	.then(
+		function (){
 			res.status(204).send();
-		});
-	});
+		},
+		function (err){
+			next(err);
+		}
+	);
 });

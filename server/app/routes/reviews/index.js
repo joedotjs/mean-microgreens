@@ -4,48 +4,68 @@ var mongoose = require('mongoose');
 var blends = mongoose.model('Blends');
 var users = mongoose.model('User');
 var orders = mongoose.model('Order');
-var reviews = mongoose.model('Review');
+var Review = mongoose.model('Review');
 
 module.exports = router;
 
-router.get('/', function (req, res, next){
-	if(req.query.reviewid){
-		reviews.find({"_id": req.query.reviewid}, function(err, reviews){
-			res.json(reviews);
-		});
-	} else {
-		reviews.find({}, function(err, reviews){
-			res.json(reviews);
-		});
-	}
-}); 
 
-// we need to build admin only posting routes 
-//create this micro 
+// get all reviews
+router.get('/', function (req, res, next){
+	Review.find({}).exec()
+	.then(
+		function (review){
+			res.json(review);
+		}, 
+		function (err){
+			next(err);
+		}
+	);
+});
+
+//get review with orderid 
+router.get('/:reviewid', function (req, res, next){
+	Review.findById(req.params.reviewid).exec()
+	.then(
+		function (review){
+			res.json(review);
+		},
+		function (err){
+			next(err);
+		}
+	);
+});
+
+// we need to build admin only posting routes
+// creates new review and returns new review
 router.post('/', function (req, res, next){
-	var review = new reviews(req.body);
+	var review = new Review(req.body);
 	review.save(function(err){
 		res.status(200).send(review);
 	});
-});
+}); 
 
-//edit this micro 
+//edits this order
 router.put('/:reviewid', function (req, res, next){
-	reviews.findOne({"_id": req.params.reviewid}, function(err, review){
-		for(var key in req.body){
-			review[key] = req.body[key];
-		}
-		review.save(function(err){
+	Review.findByIdAndUpdate(req.params.reviewid, req.body).exec()
+	.then(
+		function (review){
 			res.status(200).send(review);
-		});
-	});
+		},
+		function (err){
+			next(err);
+		}
+	);
 });
 
-//delete this micro
+// delete this review
 router.delete('/:reviewid', function (req, res, next){
-	reviews.findOne({"_id": req.params.reviewid}, function(err, review){
-		review.remove(function(err){
+	Review.findByIdAndRemove(req.params.reviewid).exec()
+	.then(
+		function (){
 			res.status(204).send();
-		});
-	});
+		},
+		function (err){
+			next(err);
+		}
+	);
 });
