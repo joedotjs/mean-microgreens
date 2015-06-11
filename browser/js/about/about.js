@@ -13,10 +13,9 @@ app.controller('AboutController', function ($scope, FullstackPics, AjaxFactory) 
 
     // Images of beautiful Fullstack people.
     $scope.images = _.shuffle(FullstackPics);
-    $scope.micros = "hello"
+    $scope.micros;
 
     $scope.getAllMicros = function () {
-    	console.log("meow");
     	AjaxFactory.getMicros().then(function (micros) {
     		$scope.micros = micros;
     	});
