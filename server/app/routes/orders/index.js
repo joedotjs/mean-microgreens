@@ -5,8 +5,13 @@ var Order = mongoose.model('Order');
 
 module.exports = router;
 
+function hasAdminPower(req, res, next){
+	if(req.user.admin) next();	
+	else res.status(403).end();
+}
+
 // get all Orders
-router.get('/', function (req, res, next){
+router.get('/', hasAdminPower, function (req, res, next){
 	Order.find({}).exec()
 	.then(
 		function (orders){
@@ -31,7 +36,6 @@ router.get('/:orderid', function (req, res, next){
 	);
 });
 
-// we need to build admin only posting routes
 // creates new order and returns new order
 router.post('/', function (req, res, next){
 	var order = new Order(req.body);
