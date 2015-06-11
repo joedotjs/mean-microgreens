@@ -14,6 +14,8 @@ app.controller('AboutController', function ($scope, FullstackPics, MicrosFactory
     // Images of beautiful Fullstack people.
     $scope.images = _.shuffle(FullstackPics);
     $scope.micros;
+    $scope.image;
+    $scope.whichName;
     $scope.newMicro = {
         name: "kitten",
         spice: "mild",
@@ -35,7 +37,8 @@ app.controller('AboutController', function ($scope, FullstackPics, MicrosFactory
     };
     $scope.showMicroByName = function(microname) {
         MicrosFactory.getMicroByName(microname).then(function (micro){
-            $scope.micros = micro;
+            $scope.micros = [micro];
+            $scope.image = micro.image;
         });
     };
     $scope.addMicro = function (micro) {

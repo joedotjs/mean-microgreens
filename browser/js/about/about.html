@@ -1,17 +1,9 @@
 <section id="about">
-<!--     <p>
-        This website--the very one at which you currently gaze--was created by a basic scaffolding
-        concocted at Fullstack Academy. Here are some of the people who make it all very real:
-    </p>
-    <carousel interval="2000">
-        <slide ng-repeat="image in images">
-            <img height="300" ng-src="{{ image }}" />
-        </slide>
-    </carousel> -->
-
+    <micro micro='micro' ng-repeat="micro in micros"></micro>
     <button ng-click='showAllMicros()'>get micros!!!</button>
     <button ng-click='showMicroById("5578c656407830ac09d46afb")'>Get micro by id</button>
-    <button ng-click='showMicroByName("Basil")'>Show Micro By Name</button>
+    <input ng-model="whichName"></input>
+    <button ng-click='showMicroByName(whichName)'>Show Micro By Name</button>
     <button ng-click='deleteMicro("5579b680c457838c1be74531")'>delete kitten :/</button>
     <pre>{{ micros | json}}</pre>
 
