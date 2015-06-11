@@ -6,7 +6,8 @@ var Micro = mongoose.model('Micro');
 module.exports = router;
 
 function hasAdminPower(req, res, next){
-	if(req.user.admin) next();	
+
+	if (req.user.admin === true) next();
 	else res.status(403).end();
 }
 
@@ -58,6 +59,7 @@ router.post('/', hasAdminPower, function (req, res, next){
 		res.status(200).send(micro);
 	});
 }); 
+
 
 //edits this micro
 router.put('/:microid', hasAdminPower, function (req, res, next){

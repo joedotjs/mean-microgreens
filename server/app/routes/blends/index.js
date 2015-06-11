@@ -34,12 +34,14 @@ router.get('/:blendid', function (req, res, next){
 // we need to build admin only posting routes
 // creates new blend and returns new blend
 router.post('/', function (req, res, next){
+
 	var blend = new Blend(req.body);
 	blend.save(function (err){
 		res.status(200).send(blend);
 	});
 });
 
+//they should be able to edit their own blend but not our defaults
 //edits this blend
 router.put('/:blendid', function (req, res, next){
 	Blend.findByIdAndUpdate(req.params.blendid, req.body).exec()
@@ -54,6 +56,7 @@ router.put('/:blendid', function (req, res, next){
 });
 
 // delete this blend
+
 router.delete('/:blendid', function (req, res, next){
 	Blend.findByIdAndRemove(req.params.blendid).exec()
 	.then(
