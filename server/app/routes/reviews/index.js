@@ -1,9 +1,9 @@
 var router = require('express').Router();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var blends = mongoose.model('Blends');
-var users = mongoose.model('User');
-var orders = mongoose.model('Order');
+var Blend = mongoose.model('Blend');
+var User = mongoose.model('User');
+var Order = mongoose.model('Order');
 var Review = mongoose.model('Review');
 
 module.exports = router;
