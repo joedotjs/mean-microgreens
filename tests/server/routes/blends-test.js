@@ -22,7 +22,7 @@ var Micro = mongoose.model('Micro');
 var Order = mongoose.model('Order');
 var Review = mongoose.model('Review');
 
-describe('blend model', function () {
+describe('Blends-routes', function () {
 
     beforeEach('Establish DB connection', function (done) {
         if (mongoose.connection.db) return done();

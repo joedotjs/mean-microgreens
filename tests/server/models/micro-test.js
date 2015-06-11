@@ -52,5 +52,35 @@ describe('Micro model', function () {
            });
        });
    });
+   describe('required fields', function(){
+      it ('should create a document with all required fields', function (done){
+            var micro = new Micro({
+                   name: 'Lazy Lettuce with all fields',
+                   spice: 'mild',
+                   price: 7,
+                   description: 'Eating this lettuce will make you feel lazy.',
+                   image: 'someURL',
+                   inventory: 8
+               });
+            micro.validate(function (err){
+              expect(err).to.be.equal(undefined);
+              done();
+            });
+      });
+      it('shouldn\'t create a document with a missing required field', function (done){
+        var micro = new Micro({
+           name: 'Missing Price Lettuce',
+           spice: 'mild',
+           description: 'Eating this lettuce will make you feel lazy.',
+           image: 'someURL',
+           inventory: 8
+         });
+        micro.validate(function (err){
+          expect(err.errors).to.have.property('price');
+          done();
+        });
+      });
+    });
+
 
 });
