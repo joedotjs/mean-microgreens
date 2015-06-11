@@ -5,7 +5,7 @@ var orderSchema = new mongoose.Schema({
 		typeofblend: {type: mongoose.Schema.Types.ObjectId, ref: 'Blend'}, 
 		quantity: Number
 	}],
-	status: {type: String, enum: ['created', 'processing', 'cancelled', 'completed'],required: true}
+	status: {type: String, enum: ['created', 'processing', 'cancelled', 'completed'], required: true, default: 'created'}
 });
 
 var Order = mongoose.model('Order', orderSchema);

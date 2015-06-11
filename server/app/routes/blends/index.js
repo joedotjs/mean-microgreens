@@ -5,6 +5,11 @@ var Blend = mongoose.model('Blend');
 
 module.exports = router;
 
+var isAuthenticated = function (req, res, next) {
+            return !!Session.user;
+            next();
+        };
+
 // get all Blend
 router.get('/', function (req, res, next){
 	Blend.find({}).exec()
@@ -33,27 +38,33 @@ router.get('/:blendid', function (req, res, next){
 
 // we need to build admin only posting routes
 // creates new blend and returns new blend
-router.post('/', function (req, res, next){
+
+router.post('/', isAuthenticated, function (req, res, next){
+
 	var blend = new Blend(req.body);
 	blend.save(function (err){
 		res.status(200).send(blend);
 	});
 });
 
-//edits this blend
+
 router.put('/:blendid', function (req, res, next){
-	Blend.findByIdAndUpdate(req.params.blendid, req.body).exec()
-	.then(
-		function (blend){
-			res.status(200).send(blend);
-		},
-		function (err){
-			next(err);
-		}
-	);
+
+	if (req.user.admin) {
+		Blend.findByIdAndUpdate(req.params.blendid, req.body).exec()
+		.then(
+			function (blend){
+				res.status(200).send(blend);
+			},
+			function (err){
+				next(err);
+			}
+		);
+	}
 });
 
 // delete this blend
+
 router.delete('/:blendid', function (req, res, next){
 	Blend.findByIdAndRemove(req.params.blendid).exec()
 	.then(
