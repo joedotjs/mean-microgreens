@@ -7,6 +7,6 @@ var reviewSchema = new mongoose.Schema({
 	// title: {type: String}, //review title
 	user: {type: mongoose.Schema.Types.ObjectId, ref: 'User'}, //user who left the review
 	date: {type: Date, default: Date} //date review was created.
-})
+});
 
 var Review = mongoose.model('Review', reviewSchema);

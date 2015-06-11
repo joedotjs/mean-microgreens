@@ -1,13 +1,13 @@
 var router = require('express').Router();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var Blends = mongoose.model('Blends');
+var Blend = mongoose.model('Blend');
 
 module.exports = router;
 
-// get all blends
+// get all Blend
 router.get('/', function (req, res, next){
-	Blends.find({}).exec()
+	Blend.find({}).exec()
 	.then(
 		function (blends){
 			res.json(blends);
@@ -20,7 +20,7 @@ router.get('/', function (req, res, next){
 
 //get blend with blendid 
 router.get('/:blendid', function (req, res, next){
-	Blends.findById(req.params.blendid).exec()
+	Blend.findById(req.params.blendid).exec()
 	.then(
 		function (blend){
 			res.json(blend);
@@ -34,7 +34,7 @@ router.get('/:blendid', function (req, res, next){
 // we need to build admin only posting routes
 // creates new blend and returns new blend
 router.post('/', function (req, res, next){
-	var blend = new Blends(req.body);
+	var blend = new Blend(req.body);
 	blend.save(function (err){
 		res.status(200).send(blend);
 	});
@@ -42,7 +42,7 @@ router.post('/', function (req, res, next){
 
 //edits this blend
 router.put('/:blendid', function (req, res, next){
-	Blends.findByIdAndUpdate(req.params.blendid, req.body).exec()
+	Blend.findByIdAndUpdate(req.params.blendid, req.body).exec()
 	.then(
 		function (blend){
 			res.status(200).send(blend);
@@ -55,7 +55,7 @@ router.put('/:blendid', function (req, res, next){
 
 // delete this blend
 router.delete('/:blendid', function (req, res, next){
-	Blends.findByIdAndRemove(req.params.blendid).exec()
+	Blend.findByIdAndRemove(req.params.blendid).exec()
 	.then(
 		function (){
 			res.status(204).send();

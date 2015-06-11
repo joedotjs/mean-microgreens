@@ -9,13 +9,13 @@ var express = require('express');
 
 require('../../../server/db/models/user');
 var User = mongoose.model('User');
-require('../../../server/db/models/micros');
-var Micro = mongoose.model('Micros');
-require('../../../server/db/models/blends');
-var Blend = mongoose.model('Blends');
-require('../../../server/db/models/orders');
+require('../../../server/db/models/micro');
+var Micro = mongoose.model('Micro');
+require('../../../server/db/models/blend');
+var Blend = mongoose.model('Blend');
+require('../../../server/db/models/order');
 var Order = mongoose.model('Order');
-require('../../../server/db/models/reviews');
+require('../../../server/db/models/review');
 var Review = mongoose.model('Review');
 
 var app = require('../../../server/app/index.js');
