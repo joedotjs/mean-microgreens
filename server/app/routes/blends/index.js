@@ -2,8 +2,14 @@ var router = require('express').Router();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Blend = mongoose.model('Blend');
+// var isAuthenticated = require('../../../browser/js/fsa/fsa-pre-built.js');
 
 module.exports = router;
+
+var isAuthenticated = function (req, res, next) {
+            return !!Session.user;
+            next();
+        };
 
 // get all Blend
 router.get('/', function (req, res, next){
@@ -33,7 +39,7 @@ router.get('/:blendid', function (req, res, next){
 
 // we need to build admin only posting routes
 // creates new blend and returns new blend
-router.post('/', function (req, res, next){
+router.post('/', isAuthenticated, function (req, res, next){
 
 	var blend = new Blend(req.body);
 	blend.save(function (err){
@@ -41,18 +47,19 @@ router.post('/', function (req, res, next){
 	});
 });
 
-//they should be able to edit their own blend but not our defaults
-//edits this blend
+
 router.put('/:blendid', function (req, res, next){
-	Blend.findByIdAndUpdate(req.params.blendid, req.body).exec()
-	.then(
-		function (blend){
-			res.status(200).send(blend);
-		},
-		function (err){
-			next(err);
-		}
-	);
+	if (req.user.admin) {
+		Blend.findByIdAndUpdate(req.params.blendid, req.body).exec()
+		.then(
+			function (blend){
+				res.status(200).send(blend);
+			},
+			function (err){
+				next(err);
+			}
+		);
+	}
 });
 
 // delete this blend
