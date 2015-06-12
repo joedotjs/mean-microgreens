@@ -12,15 +12,14 @@ app.config(function ($stateProvider) {
 app.controller('BlendsController', function ($scope, BlendsFactory) {
 
     $scope.blends;
+    $scope.editedBlend;
     $scope.image;
-    $scope.whichName;
+    $scope.whichNameToGet;
+    $scope.whichToEdit;
     $scope.newBlend = {
-        // name: "kitten",
-        // spice: "mild",
-        // price: 10,
-        // description: "soooo cutteeeee!!!",
-        // image: 'http://cdn.cutestpaw.com/wp-content/uploads/2011/11/cute-cat-l.jpg',
-        // inventory: 1
+        name: "kitten",
+        micros: ["557b0df30f7f2ef108051bd1", "557b0df30f7f2ef108051bd2"],
+        price: 10
         };
 
     $scope.showAllBlends = function () {
@@ -28,32 +27,41 @@ app.controller('BlendsController', function ($scope, BlendsFactory) {
             $scope.blends = blends;
         });
     };
-    $scope.showMicroById = function(blendid) {
+    $scope.showBlendById = function(blendid) {
         BlendsFactory.getBlendById(blendid).then(function (blend){
             $scope.blends = blend;
         });
     };
-    // $scope.showMicroByName = function(microname) {
-    //     MicrosFactory.getMicroByName(microname).then(function (micro){
-    //         $scope.micros = [micro];
-    //         $scope.image = micro.image;
-    //     });
-    // };
+    $scope.showBlendByName = function(blendname) {
+        BlendsFactory.getBlendByName(blendname).then(function (blend){
+            $scope.blends = [blend];
+            // $scope.image = blend.image;
+        });
+    };
     $scope.addBlend = function (blend) {
-        BLendsFactory.createBlend(blend).then(function (newBlend){
-            // $scope.newMicro = {
-            //     name: null,
-            //     spice: null,
-            //     price: null,
-            //     description: null,
-            //     image: null,
-            //     inventory: null
-            // };
+        BlendsFactory.createBlend(blend).then(function (newBlend){
+        $scope.newBlend = {
+            name: null,
+            micros: [],
+            price: null
+            };
         });
     };
     $scope.deleteBlend = function (id){
+        console.log("called");
         BlendsFactory.deleteBlendById(id).then(function(){
             return;
+        });
+    };
+    $scope.loadBlendToEdit = function (id){
+        BlendsFactory.getBlendById(id).then(function (blend){
+            $scope.editedBlend = blend;
+        });
+    };
+    $scope.editBlend = function (id, blend){
+        console.log("in edit blend");
+        BlendsFactory.editBlendById(id, blend).then(function (blend){
+            $scope.editedBlend = blend;
         });
     };
 

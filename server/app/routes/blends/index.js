@@ -39,6 +39,19 @@ router.get('/:blendid', function (req, res, next){
 	);
 });
 
+//get blend with blendname
+router.get('/name/:blendname', function (req, res, next){
+	Blend.findOne({name: req.params.blendname}).exec()
+	.then(
+		function (blend){
+			res.json(blend);
+		},
+		function (err){
+			next(err);
+		}
+	);
+});
+
 // creates new blend and returns new blend
 
 router.post('/', isAuthenticatedUser, function (req, res, next){

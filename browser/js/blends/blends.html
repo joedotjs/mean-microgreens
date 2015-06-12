@@ -3,43 +3,36 @@
     
     <rating ng-model="rating" max="5" ></rating>
     <!-- <micro micro='micro' ng-repeat="micro in micros"></micro> -->
-    <button ng-click='showAllMicros()'>get micros!!!</button>
-    <button ng-click='showMicroById("5578c656407830ac09d46afb")'>Get micro by id</button>
-    <input ng-model="whichName"></input>
-    <button ng-click='showMicroByName(whichName)'>Show Micro By Name</button>
-    <button ng-click='deleteMicro("5579b680c457838c1be74531")'>delete kitten :/</button>
-    <pre>{{ micros | json}}</pre>
+    <button ng-click='showAllBlends()'>get blends!!!</button>
+    <button ng-click='showBlendById("557b0df6d4cd2bf508b6473b")'>Get blend by id</button>
+    <input ng-model="whichNameToGet"></input>
+    <button ng-click='showBlendByName(whichNameToGet)'>Show Blend By Name</button>
+    <button ng-click='deleteBlend("557b3e5db65a3bfe377ed7ef")'>delete kitten :/</button>
+    <pre>{{ blends | json}}</pre>
 
-    <form name="newMicroForm" ng-submit='newMicroForm.$valid && addMicro(newMicro)' novalidate>
+    <form name="newBlendForm" ng-submit='newBlendForm.$valid && addBlend(newBlend)' novalidate>
         <div class='form-group'>
             <label for="name">Name</label>
-            <input name='name' class="form-control" ng-model='newMicro.name' required></input>
-        </div>
-        <div class="form-group">
-            <label for="spice">Spice</label>
-            <select class="form-control" name='spice' ng-model='newMicro.spice'>
-                <option>mild</option>
-                <option>medium</option>
-                <option>medium-spicy</option>
-                <option>spicy</option>
-            </select>
+            <input name='name' class="form-control" ng-model='newBlend.name' required></input>
         </div>
         <div class="form-group">
             <label for="price">Price</label>
-            <input class="form-control" name='price' ng-model='newMicro.price'></input>
+            <input class="form-control" name='price' ng-model='newBlend.price'></input>
+        </div>
+        <button class='btn btn-success' type='submit'>add blend!</button>
+    </form>
+    <h3>Which TO edit</h3>
+    <input ng-model="whichToEdit"></input>
+    <button class='btn btn-warning' ng-click='loadBlendToEdit(whichToEdit)'>Load To Edit</button>
+    <form name="editBlendForm" ng-submit='editBlendForm.$valid && editBlend(whichToEdit, editedBlend)' novalidate>
+        <div class='form-group'>
+            <label for="name">Name</label>
+            <input name='name' class="form-control" ng-model='editedBlend.name' required></input>
         </div>
         <div class="form-group">
-            <label for="description">Description</label>
-            <input class="form-control" name="description" ng-model='newMicro.description'></input>
+            <label for="price">Price</label>
+            <input class="form-control" name='price' ng-model='editedBlend.price'></input>
         </div>
-        <div class="form-group">
-            <label for="image">Image</label>
-            <input class="form-control" name="image" ng-model='newMicro.image'></input>
-        </div>
-        <div class="form-group">
-            <label for="inventory">Inventory</label>
-            <input class="form-control" name="inventory" ng-model='newMicro.inventory'></input>
-        </div>
-        <button class='btn btn-success' type='submit'>add micro!</button>
+        <button class='btn btn-success' type='submit'>edit blend!</button>
     </form>
 </section>
