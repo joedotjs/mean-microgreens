@@ -15,6 +15,7 @@ require('../../../server/db/models/review');
 
 var app = require('../../../server/app/index.js');
 var agent = supertest.agent(app);
+var guest = supertest.agent(app);
 
 var User = mongoose.model('User');
 var Blend = mongoose.model('Blend');
@@ -32,6 +33,29 @@ describe('Blends-routes', function () {
     afterEach('Clear test database', function (done) {
         clearDB(done);
     });
+
+    beforeEach('log in agent', function (done){
+        
+        User.create({
+            email: 'wtf@isthis.com',
+            password: 'meow'
+        }).then(function (user) {
+
+            agent
+            .post('/login')
+            .send({
+                email: "wtf@isthis.com",
+                password: "meow"
+            }).end(function (err, res){
+                console.log("it made it this far!!!!!!");
+                done(err);
+            });
+        
+        }, done);
+        
+        
+    });
+
 
     it('should exist', function () {
         expect(Blend).to.be.a('function');
@@ -52,6 +76,20 @@ describe('Blends-routes', function () {
                 done();
             });
         });
+        it('shouldn\t post a blend if a user is not logged in', function(done){
+            guest
+            .post('/api/blends')
+            .send({
+                name: "Ben's blend",
+                price: 7
+            })
+            .expect(401)
+            .end(function (err, res){
+                if(err) return done(err);
+                done();
+            });
+        });
+
         
 
     });

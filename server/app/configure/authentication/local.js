@@ -19,29 +19,6 @@ module.exports = function (app) {
         });
     };
     
-   app.get('/signup', function (req, res) {
-   console.log('hit the /signup get route!');
-   res.json();
-   });
-
-   app.post('/signup', function (req, res, next) {
-       console.log('hit the /signup post route!');
-       UserModel.create(req.body, function (err, user) {
-           if (err) next(err);
-           else {
-               console.log('this is req.session', req.session);
-               console.log('this is user', user);
-               req.session.userId = user._id;
-               res.json();
-           }
-       });
-   });
-
-    app.get('/signup', function (req, res) {
-    console.log('hit the /signup get route!');
-    res.json();
-    });
-
     app.post('/signup', function (req, res, next) {
         console.log('hit the /signup post route!');
         UserModel.create(req.body, function (err, user) {
@@ -49,8 +26,10 @@ module.exports = function (app) {
             else {
                 console.log('this is req.session', req.session);
                 console.log('this is user', user);
-                req.session.userId = user._id;
-                res.json();
+                req.logIn(user, function (err){
+                  if (err) return next(err);
+                  res.status(201).send({ user: _.omit(user.toJSON(),['password', 'salt']) });
+                });
             }
         });
     });
@@ -59,7 +38,7 @@ module.exports = function (app) {
 
     // A POST /login route is created to handle login.
     app.post('/login', function (req, res, next) {
-
+      console.log('RUNNING FROM TEST!!!!',req.body);
         var authCb = function (err, user) {
 
             if (err) return next(err);
