@@ -12,8 +12,16 @@ function hasAdminPower(req, res, next){
 	else res.status(403).end();
 }
 
+function isAuthenticatedUser (req, res, next) {
+	if (req.isAuthenticated()) {
+		next();
+	} else {
+		res.sendStatus(401);
+	}
+}
+
 // get all Orders
-router.get('/', function (req, res, next){
+router.get('/', isAuthenticatedUser, function (req, res, next){
 	if (req.user.admin) {
 		Order.find({}).exec()
 		.then(
@@ -40,8 +48,10 @@ router.get('/', function (req, res, next){
 	}
 });
 
+
 //get order with orderid 
-router.get('/:orderid', function (req, res, next){
+router.get('/:orderid', isAuthenticatedUser, function (req, res, next){
+
 	if (req.user.admin) {
 		Order.findById(req.params.orderid).exec()
 		.then(
@@ -73,7 +83,7 @@ router.get('/:orderid', function (req, res, next){
 });
 
 // creates new order and returns new order
-router.post('/', function (req, res, next){
+router.post('/', isAuthenticatedUser, function (req, res, next){
 	var order = new Order(req.body);
 	order.save(function(err){
 		res.status(200).send(order);
@@ -81,7 +91,7 @@ router.post('/', function (req, res, next){
 }); 
 
 //edits this order
-router.put('/:orderid', function (req, res, next){
+router.put('/:orderid', isAuthenticatedUser, function (req, res, next){
 	if (req.user.admin){
 		Order.findById(req.params.orderid)
 		.exec()
@@ -117,7 +127,7 @@ router.put('/:orderid', function (req, res, next){
 });
 
 // delete this order
-router.delete('/:orderid', function (req, res, next){
+router.delete('/:orderid', isAuthenticatedUser, function (req, res, next){
 	if (req.user.admin){
 		Order.findByIdAndRemove(req.params.orderid).exec()
 		.then(
