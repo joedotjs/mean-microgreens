@@ -1,18 +1,16 @@
 app.config(function ($stateProvider) {
 
     // Register our *about* state.
-    $stateProvider.state('about', {
-        url: '/about',
-        controller: 'AboutController',
-        templateUrl: 'js/about/about.html'
+    $stateProvider.state('micros', {
+        url: '/micros',
+        controller: 'MicrosController',
+        templateUrl: 'js/micros/micros.html'
     });
 
 });
 
-app.controller('AboutController', function ($scope, FullstackPics, MicrosFactory) {
+app.controller('MicrosController', function ($scope, MicrosFactory) {
 
-    // Images of beautiful Fullstack people.
-    $scope.images = _.shuffle(FullstackPics);
     $scope.micros;
     $scope.image;
     $scope.whichName;
