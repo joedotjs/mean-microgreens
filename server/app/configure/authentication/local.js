@@ -103,7 +103,7 @@ module.exports = function (app) {
                 res.status(200).send({ user: _.omit(user.toJSON(),['password', 'salt']) });
             }
         })
-    })
+    });
 
     // A DELETE route is created to delete a user
     app.delete('/delete/:id', hasAdminPower, function (req, res, next) {
@@ -115,17 +115,18 @@ module.exports = function (app) {
                 res.status(201).send({ user: _.omit(user.toJSON(),['password', 'salt']) });
             }
         })
-    })
+    });
 
     // A PUT route is created to enable password reset for user
 
     app.put('/reset/:id', isAuthenticatedUser, function (req, res, next) {
+        console.log('this will enable password reset for user')
         UserModel.findOneAndUpdate({ _id: req.params.id }, req.body, function (err, user) {
             if(err) next(err)
             else {
                 res.status(200).send({ user: _.omit(user.toJSON(),['password', 'salt']) })
             }
         })
-    })
+    });
 
 };
