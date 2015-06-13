@@ -9,11 +9,13 @@ module.exports = function (app) {
 
     var uiBootstrapPath = path.join(root, './node_modules/angular-bootstrap');
     var npmPath = path.join(root, './node_modules');
+    var imagePath = path.join(root, './browser/js/common/images');
     var publicPath = path.join(root, './public');
     var browserPath = path.join(root, './browser');
 
     app.use(favicon(app.getValue('faviconPath')));
     app.use(express.static(uiBootstrapPath));
+    app.use(express.static(imagePath));
     app.use(express.static(npmPath));
     app.use(express.static(publicPath));
     app.use(express.static(browserPath));
