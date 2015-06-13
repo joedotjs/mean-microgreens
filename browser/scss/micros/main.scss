@@ -14,7 +14,22 @@
 // 	text-align: center;
 // }
 
+.micro-info {
+	display: flex;
+	align-items: center;	
+}
+
+.micro {
+	text-align: left;
+	font-family: 'Indie Flower', cursive;	 
+	h1 {
+		text-align: center;
+	}
+}
+.micros-button {
+	margin: 0 10px;
+}
 img.micro-image {
-	width: 500px;
+	width: 100%;
 	height: auto;
 }
