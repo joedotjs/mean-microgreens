@@ -24,6 +24,7 @@ app.controller('BlendsController', function ($scope, BlendsFactory) {
 
     $scope.showAllBlends = function () {
         BlendsFactory.getAllBlends().then(function (blends) {
+            
             $scope.blends = blends;
         });
     };

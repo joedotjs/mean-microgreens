@@ -1,24 +1,20 @@
-<section id="micros">
-    
+<section id="micros" class='container-fluid'>
+
     <div class='micros'>
-        <div class='col-md-2' id='left-panel'>left
+        <div class='col-md-2' id='left-panel'>
 
             
 
         </div>
-        <div class='col-md-10' id='right-panel'>right
+        <div class='col-md-10' id='right-panel'>
+            
+            <button class='btn btn-success micros-button' ng-click='showAllMicros()'>show all micros</button>
+            <button class='btn btn-success micros-button' ng-repeat='level in levels' ng-click='showMicrosBySpice(level)'>{{level}}</button>
 
-
+            <micro micro='micro' class='centered' ng-repeat='micro in micros'>
+            </micro>
 
         </div>
-
-
-
-
-
-
-
-
     </div>
 
 
@@ -35,10 +31,10 @@
 
 
 
-    <rating ng-model="rating" max="5" ></rating>
-    <micro micro='micro' ng-repeat="micro in micros"></micro>
-    <button ng-click='showAllMicros()'>get micros!!!</button>
-    <button ng-click='showMicroById("5578c656407830ac09d46afb")'>Get micro by id</button>
+    <!-- <rating ng-model="rating" max="5" ></rating> -->
+    
+    
+    <!-- <button ng-click='showMicroById("5578c656407830ac09d46afb")'>Get micro by id</button>
     <input ng-model="whichName"></input>
     <button ng-click='showMicroByName(whichName)'>Show Micro By Name</button>
     <button ng-click='deleteMicro("5579b680c457838c1be74531")'>delete kitten :/</button>
@@ -75,5 +71,5 @@
             <input class="form-control" name="inventory" ng-model='newMicro.inventory'></input>
         </div>
         <button class='btn btn-success' type='submit'>add micro!</button>
-    </form>
+    </form> -->
 </section>
