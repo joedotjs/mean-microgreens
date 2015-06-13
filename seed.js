@@ -86,7 +86,7 @@ var seedMicros = function () {
     },
     {
         name: 'Mustard Greens',
-        spice: 'medium-spicy',
+        spice: 'spicy',
         price: 4,
         description: 'Gives you smooth poop',
         image: 'http://cdn2.johnnyseeds.com/images/product/large/2797M.jpg',
@@ -113,7 +113,7 @@ var seedMicros = function () {
         spice: 'mild',
         price: 3,
         description: 'This should be your vegetable of choice if you are Popeye!',
-        image: 'http://cdn2.johnnyseeds.com/images/product/large/363MG.jpg',
+        image: 'http://cdn2.johnnyseeds.com/images/product/large/383G.jpg',
         inventory: 100
     },
     {
