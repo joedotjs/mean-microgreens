@@ -40,7 +40,7 @@ app.controller('BlendsController', function ($scope, BlendsFactory) {
     //     });
     // };
     $scope.addBlend = function (blend) {
-        BLendsFactory.createBlend(blend).then(function (newBlend){
+        BlendsFactory.createBlend(blend).then(function (newBlend){
             // $scope.newMicro = {
             //     name: null,
             //     spice: null,
