@@ -1,0 +1,35 @@
+.leaf {
+	width: 32%;
+	height: 32%;
+	display: inline-block;
+}
+.bowl {
+	width: 50%;
+	height: 50%; 
+	display: block;
+	margin-top: -65px;
+	margin-bottom: -55px;
+	margin-left: auto;
+	margin-right: auto;
+	position: relative;
+	// z-index: -1;
+}
+.micro-thumbnails {
+	width: 50%;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.blend-info {
+
+	// text-align: center;
+	vertical-align: middle;
+}
+
+.blend-price {
+
+}
+.side {
+	margin-top: auto;
+	margin-bottom: auto;
+}
