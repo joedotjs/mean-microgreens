@@ -3,7 +3,7 @@ var crypto = require('crypto');
 var mongoose = require('mongoose');
 
 var schema = new mongoose.Schema({
-    admin: {type: Boolean, default: false},
+    admin: {type: Boolean/*.*/},
     orders: [{type: mongoose.Schema.Types.ObjectId, ref: 'Order'}],
     email: {
         type: String

@@ -18,7 +18,29 @@ module.exports = function (app) {
             done(null, user);
         });
     };
-    
+
+
+    function hasAdminPower(req, res, next){
+      console.log('this is req.user', req.user)  
+      if(req.user.admin) next();
+      else res.status(403).end();
+    }
+
+    // A GET / route is created to find all users
+    app.get('/users', hasAdminPower, function (req, res, next){
+        UserModel.find({}).exec()
+        .then(
+          function (users){
+            res.status(200).send({ user: _.omit(user.toJSON(),['password', 'salt']) });
+          }, 
+          function (err){
+            next(err);
+          }
+        );
+      });
+
+
+    // A POST /signup route is created to handle registering users
     app.post('/signup', function (req, res, next) {
         console.log('hit the /signup post route!');
         UserModel.create(req.body, function (err, user) {
@@ -38,7 +60,7 @@ module.exports = function (app) {
 
     // A POST /login route is created to handle login.
     app.post('/login', function (req, res, next) {
-      console.log('RUNNING FROM TEST!!!!',req.body);
+      console.log('Logging in');
         var authCb = function (err, user) {
 
             if (err) return next(err);
@@ -61,5 +83,25 @@ module.exports = function (app) {
         passport.authenticate('local', authCb)(req, res, next);
 
     });
+    
+    // A PUT route is created to promote users to admin status
+    app.put('/promote/:id', hasAdminPower, function (req, res, next) {
+        UserModel.findOneAndUpdate({ _id: req.params.id }, req.body, function (err, user) {
+            if(err) next(err)
+            else {
+                res.status(200).send({ user: _.omit(user.toJSON(),['password', 'salt']) });
+            }
+        })
+    })
+
+    // A DELETE route is create to delete a user
+    app.delete('/delete/:id', hasAdminPower, function (req, res, next) {
+        UserModel.remove({ _id: req.params.id }, function (err, user) {
+            if(err) next(err)
+            else {
+                res.status(201).send({ user: _.omit(user.toJSON(),['password', 'salt']) });
+            }
+        })
+    })
 
 };
