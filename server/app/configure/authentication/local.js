@@ -19,6 +19,13 @@ module.exports = function (app) {
         });
     };
 
+    function isAuthenticatedUser (req, res, next) {
+        if (req.isAuthenticated()) {
+            next();
+        } else {
+            res.sendStatus(401);
+        }
+    }
 
     function hasAdminPower(req, res, next){
       console.log('this is req.user', req.user)  
@@ -28,6 +35,7 @@ module.exports = function (app) {
 
     // A GET / route is created to find all users
     app.get('/users', hasAdminPower, function (req, res, next){
+        console.log('this hits the get /users route!')
         UserModel.find({}).exec()
         .then(
           function (users){
@@ -52,6 +60,7 @@ module.exports = function (app) {
                   if (err) return next(err);
                   res.status(201).send({ user: _.omit(user.toJSON(),['password', 'salt']) });
                 });
+
             }
         });
     });
@@ -86,7 +95,9 @@ module.exports = function (app) {
     
     // A PUT route is created to promote users to admin status
     app.put('/promote/:id', hasAdminPower, function (req, res, next) {
+        console.log('this hits the put route!')
         UserModel.findOneAndUpdate({ _id: req.params.id }, req.body, function (err, user) {
+            console.log('this is req.params.id for the put route', req.params.id)
             if(err) next(err)
             else {
                 res.status(200).send({ user: _.omit(user.toJSON(),['password', 'salt']) });
@@ -94,12 +105,25 @@ module.exports = function (app) {
         })
     })
 
-    // A DELETE route is create to delete a user
+    // A DELETE route is created to delete a user
     app.delete('/delete/:id', hasAdminPower, function (req, res, next) {
+        console.log('this deletes a user!')
         UserModel.remove({ _id: req.params.id }, function (err, user) {
+            console.log('this is req.params.id for the delete route', req.params.id)
             if(err) next(err)
             else {
                 res.status(201).send({ user: _.omit(user.toJSON(),['password', 'salt']) });
+            }
+        })
+    })
+
+    // A PUT route is created to enable password reset for user
+
+    app.put('/reset/:id', isAuthenticatedUser, function (req, res, next) {
+        UserModel.findOneAndUpdate({ _id: req.params.id }, req.body, function (err, user) {
+            if(err) next(err)
+            else {
+                res.status(200).send({ user: _.omit(user.toJSON(),['password', 'salt']) })
             }
         })
     })

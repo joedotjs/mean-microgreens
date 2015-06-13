@@ -18,6 +18,12 @@ app.factory('UserFactory', function ($http){
         return response.data;
       })
     },
+    editUserPassword: function (user) {
+      return $http.put('/reset/' + id)
+      .then(function (response) {
+        return response.data;
+      })
+    },
     deleteUserById: function (id) {
       return $http.delete('/delete/' + id);
     }
