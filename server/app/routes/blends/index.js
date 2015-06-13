@@ -15,7 +15,7 @@ function isAuthenticatedUser (req, res, next) {
 
 // get all Blend
 router.get('/', function (req, res, next){
-	Blend.find({}).exec()
+	Blend.find({}).populate('micros').exec()
 	.then(
 		function (blends){
 			res.json(blends);
@@ -28,7 +28,7 @@ router.get('/', function (req, res, next){
 
 //get blend with blendid 
 router.get('/:blendid', function (req, res, next){
-	Blend.findById(req.params.blendid).exec()
+	Blend.findById(req.params.blendid).populate('micros').exec()
 	.then(
 		function (blend){
 			res.json(blend);
@@ -41,7 +41,7 @@ router.get('/:blendid', function (req, res, next){
 
 //get blend with blendname
 router.get('/name/:blendname', function (req, res, next){
-	Blend.findOne({name: req.params.blendname}).exec()
+	Blend.findOne({name: req.params.blendname}).populate('micros').exec()
 	.then(
 		function (blend){
 			res.json(blend);

@@ -1,10 +1,8 @@
-<section id="blends">
-    
-    
+<section id="blends" class="container">
+    <blend ng-repeat="blend in blends" blend="blend"></blend>
     <rating ng-model="rating" max="5" ></rating>
     <!-- <micro micro='micro' ng-repeat="micro in micros"></micro> -->
     <button ng-click='showAllBlends()'>get blends!!!</button>
-    <button ng-click='showBlendById("557b0df6d4cd2bf508b6473b")'>Get blend by id</button>
     <input ng-model="whichNameToGet"></input>
     <button ng-click='showBlendByName(whichNameToGet)'>Show Blend By Name</button>
     <button ng-click='deleteBlend("557b3e5db65a3bfe377ed7ef")'>delete kitten :/</button>
@@ -35,4 +33,5 @@
         </div>
         <button class='btn btn-danger' type='submit'>edit blend!</button>
     </form>
+    <div>Icons made by <a href="http://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a>             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a></div>
 </section>
