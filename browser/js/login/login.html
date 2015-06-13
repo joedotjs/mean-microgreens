@@ -15,18 +15,24 @@
 
     <button type="submit" class="btn btn-default">Submit</button><br><br> 
 
-    <!-- Facebook Login -->
-    <button class="btn btn-default fa fa-facebook-square fa-lg" ng-click="window.location.href = '/auth/facebook'">  Login with Facebook
-    </button><br><br>   
+    </form>
 
-    <!-- Google Login -->
-    <button class="btn btn-default fa fa-google-plus-square fa-lg" ng-click="window.location.href = '/auth/google'">  Login with Google+ </button><br><br>
+    <div id="third-party-login">
 
-    <!-- Twitter Login -->
+        <!-- Facebook Login -->
+        <button class="btn btn-default fa fa-facebook-square fa-lg" onClick="window.location='/auth/facebook';">  Login with Facebook
+        </button><br><br>   
 
-    <button class="btn btn-default fa fa-twitter-square fa-lg" ng-click="window.location.href = '/auth/twitter'">  Login with Twitter </button><br><br>
+        <!-- Google Login -->
+        <button class="btn btn-default fa fa-google-plus-square fa-lg" onClick="window.location='/auth/google';">  Login with Google+ </button><br><br>
 
-    <!-- Sign up -->
-    <button ng-show="!user" ui-sref="signup" class="btn login-button">  Sign up!</button><br><br>
+        <!-- Twitter Login -->
 
-</form>
+        <!-- cannot authenticate -->
+
+       <!--  <button class="btn btn-default fa fa-twitter-square fa-lg" onClick="window.location='/auth/twitter';">  Login with Twitter </button><br><br> -->
+
+        <!-- Sign up -->
+        <button ng-show="!user" ui-sref="signup" class="btn login-button">  Sign up!</button><br><br>
+
+    </div>
