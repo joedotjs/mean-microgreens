@@ -12,12 +12,12 @@ app.factory('BlendsFactory', function ($http){
 				return response.data;
 			});
 		},
-		// getBlendByName: function (blendname){ // don't have this route yet
-		// 	return $http.get("/api/blends/name/" + blendname)
-		// 	.then(function (response){
-		// 		return response.data;
-		// 	});
-		// },
+		getBlendByName: function (blendname){ // don't have this route yet
+			return $http.get("/api/blends/name/" + blendname)
+			.then(function (response){
+				return response.data;
+			});
+		},
 		createBlend: function (blend) {
 			return $http.post("/api/blends", blend)
 			.then(function (response) {
@@ -25,13 +25,13 @@ app.factory('BlendsFactory', function ($http){
 			});
 		},
 		editBlendById: function (id, blend) {
-			return $http.put('/api/blend/' + id, blend)
+			return $http.put('/api/blends/' + id, blend)
 			.then(function (response) {
 				return response.data;
 			});
 		},
 		deleteBlendById: function (id) {
-			return $http.delete('/api/blend/' + id);
+			return $http.delete('/api/blends/' + id);
 		},
 	};
 });
