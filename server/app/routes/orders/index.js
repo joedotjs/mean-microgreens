@@ -35,7 +35,7 @@ router.get('/', isAuthenticatedUser, function (req, res, next){
 	} else {
 		console.log("only this user's orders");
 		User.findById(req.user._id)
-		.populate('Orders')
+		.populate('orders')
 		.exec()
 		.then(
 			function (user){
