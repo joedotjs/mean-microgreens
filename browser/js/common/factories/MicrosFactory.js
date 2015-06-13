@@ -18,6 +18,12 @@ app.factory('MicrosFactory', function ($http){
 				return response.data;
 			});
 		},
+		getMicrosBySpice: function (spicelevel){
+			return $http.get("/api/micros/spice/" + spicelevel)
+			.then(function (response){
+				return response.data;
+			});
+		},
 		createMicro: function (micro) {
 			return $http.post("/api/micros", micro)
 			.then(function (response) {

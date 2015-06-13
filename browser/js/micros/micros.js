@@ -14,14 +14,21 @@ app.controller('MicrosController', function ($scope, MicrosFactory) {
     $scope.micros;
     $scope.image;
     $scope.whichName;
-    $scope.newMicro = {
-        name: "kitten",
-        spice: "mild",
-        price: 10,
-        description: "soooo cutteeeee!!!",
-        image: 'http://cdn.cutestpaw.com/wp-content/uploads/2011/11/cute-cat-l.jpg',
-        inventory: 1
-        };
+
+    $scope.levels = [
+        'mild',
+        'medium',
+        'medium-spicy',
+        'spicy'
+    ]
+    // $scope.newMicro = {
+    //     name: "kitten",
+    //     spice: "mild",
+    //     price: 10,
+    //     description: "soooo cutteeeee!!!",
+    //     image: 'http://cdn.cutestpaw.com/wp-content/uploads/2011/11/cute-cat-l.jpg',
+    //     inventory: 1
+    //     };
 
     $scope.showAllMicros = function () {
         MicrosFactory.getAllMicros().then(function (micros) {
@@ -30,7 +37,7 @@ app.controller('MicrosController', function ($scope, MicrosFactory) {
     };
     $scope.showMicroById = function(microid) {
         MicrosFactory.getMicroById(microid).then(function (micro){
-            $scope.micros = micro;
+            $scope.micros = [micro];
         });
     };
     $scope.showMicroByName = function(microname) {
@@ -39,6 +46,13 @@ app.controller('MicrosController', function ($scope, MicrosFactory) {
             $scope.image = micro.image;
         });
     };
+
+    $scope.showMicrosBySpice = function (spicelevel) {
+        console.log('wheeeeeeeee!')
+        MicrosFactory.getMicrosBySpice(spicelevel).then(function (micros){
+            $scope.micros = micros;
+        })
+    }
     $scope.addMicro = function (micro) {
         console.log("in add micro");
         MicrosFactory.createMicro(micro).then(function (newMicro){
@@ -57,6 +71,6 @@ app.controller('MicrosController', function ($scope, MicrosFactory) {
             return;
         });
     };
-
+    $scope.showAllMicros();
 
 });

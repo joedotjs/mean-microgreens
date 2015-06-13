@@ -50,6 +50,20 @@ router.get('/name/:microname', function (req, res, next){
 	);
 });
 
+//get micro with spice level
+
+router.get('/spice/:spicelevel', function (req, res, next){
+	Micro.find({spice: req.params.spicelevel}).exec()
+	.then(
+		function (micro){
+		res.json(micro);
+	}, 
+		function (err){
+		next(err);
+		}
+	);
+});
+
 
 // we need to build admin only posting routes
 // creates new micro and returns new micro
