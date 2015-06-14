@@ -6,12 +6,23 @@
                 <button class='btn btn-success micros-button' ng-click='showAllMicros()'>show all micros</button>
                 <button class='btn btn-success micros-button' ng-repeat='level in levels' ng-click='showMicrosBySpice(level)'>{{level}}</button>
             </div>
-            <div class='col-md-6 input-group' id='micros-search'>
-                <input type="text" class="form-control" placeholder="Search for micros">
-                <span class="input-group-btn">
-                    <button class="btn btn-success" type="button">Go!</button>
-                </span>
-            </div>
+            <form ng-submit="showMicroByName(whichName)">
+                <div class='col-md-6 input-group' id='micros-search'>
+                    <input 
+                        type="text"
+                        class="form-control"
+                        ng-model="whichName" 
+                        placeholder="Type in a micro name to find it">
+                    <span class="input-group-btn">
+                        <button 
+                            type="submit" 
+                            class="btn btn-success"
+                            type="button">
+                            Find Micro
+                        </button>
+                    </span>
+                </div>
+            </form>
             
 
         </div>

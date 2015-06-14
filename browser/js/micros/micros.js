@@ -41,6 +41,7 @@ app.controller('MicrosController', function ($scope, MicrosFactory) {
         });
     };
     $scope.showMicroByName = function(microname) {
+        microname = this.whichName;
         MicrosFactory.getMicroByName(microname).then(function (micro){
             $scope.micros = [micro];
             $scope.image = micro.image;
