@@ -8,28 +8,58 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('ManageUserCtrl', function ($scope, UserFactory, $state) {
+app.controller('ManageUserCtrl', function ($scope, AuthService, UserFactory, $state) {
 
     $scope.error = null;
 
+//lists all users
     $scope.getAllUsers = function () {
 
-        UserFactory.getAllUsers().then(function (users) {
+        UserFactory.getAllUsers()
+        .then(function (users) {
             $scope.userlist = users;
+        })
+        .catch(function () {
+            $scope.error = 'Invalid action of listing all users.'
         })    
     };
 
-    $scope.promoteUserStatus = function (id) {
+//lists a user by id
+    $scope.getUserById = function (id, info) {
 
-        UserFactory.promoteUserStatus(id).then(function (users) {
-            $scope.userlist = users;
+        UserFactory.getUserById(id)
+        .then(function (user) {
+            $scope.userlist = user;
+        })
+        .catch(function () {
+            $scope.error = 'Invalid action of listing a particular user.'
         })
     };
 
+//promotes user to admin; needs to be checked if working
+    $scope.promoteUserStatus = function (id) {
+
+        UserFactory.getUserById(id)
+        .then(function (user) {
+            UserFactory.promoteUserStatus(user._id, info)
+            .then(function (user) {
+                $scope.userlist = user;
+            })
+        })
+        .catch(function () {
+            $scope.error = 'Invalid promotion of user status.'
+        })
+    };
+
+//deletes a user
     $scope.deleteUserById = function (id) {
 
-        UserFactory.deleteUserById(id).then(function (users) {
-            $scope.userlist = users;
+        UserFactory.deleteUserById(id)
+        .then(function (user) {
+            $scope.userlist = user;
         })
-    }
+        .catch(function () {
+            $scope.error = 'Invalid action of deleting a user.'
+        })
+    };
 });

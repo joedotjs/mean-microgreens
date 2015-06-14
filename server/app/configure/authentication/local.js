@@ -44,16 +44,22 @@ module.exports = function (app) {
     app.get('/users', hasAdminPower, function (req, res, next){
         console.log('this hits the get /users route!')
         UserModel.find({}).exec()
-        .then(
-          function (users){
-            res.status(200).send({ user: _.omit(user.toJSON(),['password', 'salt']) });
-          }, 
-          function (err){
-            next(err);
-          }
-        );
+        .then(function (users){
+            console.log('this is users', users)
+            res.status(200).send(users);
+          })
+        .then(null, next); 
       });
 
+
+    app.get('/users/:id', hasAdminPower, function (req, res, next) {
+        console.log('hitting the get user by id route')
+        UserModel.findById(req.params.id).exec()
+        .then(function (user) {
+            res.status(200).send({ user: _.omit(user.toJSON(),['password', 'salt']) });
+        })
+        .then(null, next);
+    });
 
     // A POST /signup route is created to handle registering users
     app.post('/signup', function (req, res, next) {
@@ -113,14 +119,11 @@ module.exports = function (app) {
 
     // A DELETE route is created to delete a user
     app.delete('/delete/:id', hasAdminPower, function (req, res, next) {
-        console.log('this deletes a user!')
-        UserModel.remove({ _id: req.params.id }, function (err, user) {
-            console.log('this is req.params.id for the delete route', req.params.id)
-            if(err) next(err)
-            else {
-                res.status(201).send({ user: _.omit(user.toJSON(),['password', 'salt']) });
-            }
+        UserModel.remove({ _id: req.params.id }).exec()
+        .then(function () {
+            res.status(200).send();
         })
+        .then(null, next);
     });
 
     // A PUT route is created to enable password reset for user

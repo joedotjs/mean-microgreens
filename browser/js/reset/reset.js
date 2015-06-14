@@ -8,7 +8,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('ResetPasswordCtrl', function ($scope, AuthService, UserFactory, $state, $stateParams) {
+app.controller('ResetPasswordCtrl', function ($scope, AuthService, UserFactory, $state) {
 
     $scope.reset = {};
     $scope.error = null;
