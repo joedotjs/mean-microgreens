@@ -1,31 +1,35 @@
-// #left-panel {
-//   border-style: solid;
-//   border-color: red;
-// }
+#micros {
 
-#right-panel {
-  text-align: right;
-}
-
-.micro-info {
-	display: flex;
-	align-items: center;
-}
-
-.micro {
-	text-align: left;
 	font-family: 'Indie Flower', cursive;
 	color: #606060;
-	h1 {
-		text-align: center;
+
+	#top-panel {
+	  text-align: center;
 	}
-}
-.micros-button {
-	margin: 0 10px;
-	color: white;
-	font-family: 'Indie Flower', cursive;
-}
-img.micro-image {
-	width: 100%;
-	height: auto;
+
+	.micro-info {
+		display: flex;
+		align-items: center;
+	}
+
+	.micro {
+		text-align: left;
+
+	}
+
+	.description {
+		text-align: left;
+	}
+
+
+	.micros-button {
+		margin: 0 10px;
+		color: white;
+		font-family: 'Indie Flower', cursive;
+	}
+	img.micro-image {
+		width: 100%;
+		height: auto;
+	}
+	
 }
