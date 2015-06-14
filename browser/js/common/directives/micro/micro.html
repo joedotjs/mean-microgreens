@@ -1,11 +1,20 @@
-<div class="micro">
-        <h1>{{ micro.name }}</h1>
+<div class="container micro">
+
+  
+	<div class='row micro-info'>
+
+		<div class='col-md-6'>
+    <h1>{{ micro.name }}</h1>
     <img src="{{ micro.image }}" class="md-col-6 micro-image">
-    <div class="md-col-6">
+    </div>
+
+    <div class="col-md-6">
         <h3>Spice level: {{ micro.spice }}</h3>
         <h4>Price/lb: ${{ micro.price}}</h4>
         <p>Description: {{ micro.description }}</p>
         <h6>Inventory: {{ micro.inventory }}</h6>
     </div>
+
+ 	</div>
 
 </div>
