@@ -12,14 +12,14 @@ app.factory('UserFactory', function ($http){
         return response.data;
       });
     },
-    promoteUserStatus: function (user) {
-      return $http.put('/promote/' + id)
+    promoteUserStatus: function (id, info) {
+      return $http.put('/promote/' + id, info)
       .then(function (response) {
         return response.data;
       })
     },
-    editUserPassword: function (user) {
-      return $http.put('/reset/' + id)
+    resetUserPassword: function (id, info) {
+      return $http.put('/reset/' + id, info)
       .then(function (response) {
         return response.data;
       })
