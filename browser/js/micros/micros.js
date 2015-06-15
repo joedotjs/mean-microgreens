@@ -9,7 +9,7 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('MicrosController', function ($scope, MicrosFactory) {
+app.controller('MicrosController', function ($scope, MicrosFactory, AuthService) {
 
     $scope.micros;
     $scope.image;
@@ -29,6 +29,14 @@ app.controller('MicrosController', function ($scope, MicrosFactory) {
     //     image: 'http://cdn.cutestpaw.com/wp-content/uploads/2011/11/cute-cat-l.jpg',
     //     inventory: 1
     //     };
+
+    $scope.checkAdminStatus = function () {
+
+        var user = AuthService.getLoggedInUser().then(function (currUser){
+            return currUser.admin;
+        });
+
+    }
 
     $scope.showAllMicros = function () {
         MicrosFactory.getAllMicros().then(function (micros) {
