@@ -1,49 +1,93 @@
 var router = require('express').Router();
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var blends = mongoose.model('Blend');
+var Blend = mongoose.model('Blend');
 
 module.exports = router;
 
-// get all blends if there is a query for a specific blend, get that blend
-router.get('/', function (req, res, next){
-	if(req.query.blendid){
-		blends.find({"_id": req.query.blendid}, function(err, blends){
-			res.json(blends);
-		});
+function isAuthenticatedUser (req, res, next) {
+	if (req.isAuthenticated()) {
+		next();
 	} else {
-		blends.find({}, function(err, blends){
-			res.json(blends);
-		});
+		res.sendStatus(401);
 	}
-}); 
+}
 
-// we need to build admin only posting routes
+// get all Blend
+router.get('/', function (req, res, next){
+	Blend.find({}).populate('micros').exec()
+	.then(
+		function (blends){
+			res.json(blends);
+		}, 
+		function (err){
+			next(err);
+		}
+	);
+});
+
+//get blend with blendid 
+router.get('/:blendid', function (req, res, next){
+	Blend.findById(req.params.blendid).populate('micros').exec()
+	.then(
+		function (blend){
+			res.json(blend);
+		},
+		function (err){
+			next(err);
+		}
+	);
+});
+
+//get blend with blendname
+router.get('/name/:blendname', function (req, res, next){
+	Blend.findOne({name: req.params.blendname}).populate('micros').exec()
+	.then(
+		function (blend){
+			res.json(blend);
+		},
+		function (err){
+			next(err);
+		}
+	);
+});
+
 // creates new blend and returns new blend
-router.post('/', function (req, res, next){
-	var blend = new blends(req.body);
-	blend.save(function(err){
+
+router.post('/', isAuthenticatedUser, function (req, res, next){
+
+	var blend = new Blend(req.body);
+	blend.save(function (err){
 		res.status(200).send(blend);
 	});
 });
 
-//edits this blend
-router.put('/:blendid', function (req, res, next){
-	blends.findOne({"_id": req.params.blendid}, function(err, blend){
-		for(var key in req.body){
-			blend[key] = req.body[key];
-		}
-		blend.save(function(err){
-			res.status(200).send(blend);
-		});
-	});
+
+router.put('/:blendid', isAuthenticatedUser, function (req, res, next){
+
+	if (req.user.admin) {
+		Blend.findByIdAndUpdate(req.params.blendid, req.body).exec()
+		.then(
+			function (blend){
+				res.status(200).send(blend);
+			},
+			function (err){
+				next(err);
+			}
+		);
+	}
 });
 
 // delete this blend
-router.delete('/:blendid', function (req, res, next){
-	blends.findById(req.params.blendid, function(err, blend){
-		blend.remove(function(err){
+
+router.delete('/:blendid', isAuthenticatedUser, function (req, res, next){
+	Blend.findByIdAndRemove(req.params.blendid).exec()
+	.then(
+		function (){
 			res.status(204).send();
-		});
-	});
+		},
+		function (err){
+			next(err);
+		}
+	);
 });

@@ -1,0 +1,39 @@
+#micros {
+
+	font-family: 'Indie Flower', cursive;
+	color: #606060;
+
+	#top-panel {
+	  text-align: center;
+	}
+
+	#bottom-panel {
+		padding-top: 25px;
+	}
+
+	.micro-info {
+		display: flex;
+		align-items: center;
+	}
+
+	.micro {
+		text-align: left;
+
+	}
+
+	.description {
+		text-align: left;
+	}
+
+
+	.micros-button {
+		margin: 0 10px;
+		color: white;
+		font-family: 'Indie Flower', cursive;
+	}
+	img.micro-image {
+		width: 100%;
+		height: auto;
+	}
+	
+}

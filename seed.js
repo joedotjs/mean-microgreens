@@ -22,8 +22,8 @@ Refer to the q documentation for why and how q.invoke is used.
 var mongoose = require('mongoose');
 var connectToDb = require('./server/db');
 var User = mongoose.model('User');
-var Micros = mongoose.model('Micros');
-var Blend = mongoose.model('Blend')
+var Micros = mongoose.model('Micro');
+var Blends = mongoose.model('Blend')
 var q = require('q');
 var chalk = require('chalk');
 
@@ -36,7 +36,7 @@ var getMicroData = function () {
 };
 
 var getBlendData = function () {
-    return q.ninvoke(Blend, 'find', {});
+    return q.ninvoke(Blends, 'find', {});
 };
 
 var seedUsers = function () {
@@ -48,7 +48,13 @@ var seedUsers = function () {
         },
         {
             email: 'obama@gmail.com',
-            password: 'potus'
+            password: 'potus',
+            admin: true
+        },
+        {
+            email: 'rachel@gmail.com',
+            password: '1234',
+            changepassword: true
         }
     ];
 
@@ -63,111 +69,81 @@ var seedMicros = function () {
         name: 'Broccoli',
         spice: 'mild',
         price: 2,
-        info: {
-            background: 'The vegetable that your parents always told you to eat',
-            image: 'http://www.profproduce.com/wp-content/uploads/2013/04/Broccoli.jpg'
-        },
-        inventory: 50,
-        available: true
+        description: 'The vegetable that your parents always told you to eat',
+        image: 'http://www.profproduce.com/wp-content/uploads/2013/04/Broccoli.jpg',
+        inventory: 50
     },
     {
         name: 'Arugula',
         spice: 'medium',
         price: 3,
-        info: {
-            background: 'You either love it or hate it. You are a loser if you do not love it',
-            image: 'http://cdn2.johnnyseeds.com/images/product/large/385M.jpg'
-        },
-        inventory: 50,
-        available: true
+        description: 'You either love it or hate it. You are a loser if you do not love it',
+        image: 'http://cdn2.johnnyseeds.com/images/product/large/385M.jpg',
+        inventory: 50
     },
     {
         name: 'Basil',
         spice: 'medium-spicy',
         price: 4,
-        info: {
-            background: 'Destroyer of phlegm',
-            image: 'http://cdn2.johnnyseeds.com/images/product/large/944M.jpg'
-        },
-        inventory: 50,
-        available: true
+        description: 'Destroyer of phlegm',
+        image: 'http://cdn2.johnnyseeds.com/images/product/large/944M.jpg',
+        inventory: 50
     },
     {
         name: 'Mustard Greens',
-        spice: 'medium-spicy',
+        spice: 'spicy',
         price: 4,
-        info: {
-            background: 'Gives you smooth poop',
-            image: 'http://cdn2.johnnyseeds.com/images/product/large/2797M.jpg'
-        },
-        inventory: 50,
-        available: true
+        description: 'Gives you smooth poop',
+        image: 'http://cdn2.johnnyseeds.com/images/product/large/2797M.jpg',
+        inventory: 50
     },
     {
         name: 'Celery Leaf',
         spice: 'mild',
         price: 2,
-        info: {
-            background: 'Meh',
-            image: 'http://cdn2.johnnyseeds.com/images/product/large/922M.jpg'
-        },
-        inventory: 50,
-        available: true
+        description: 'Meh',
+        image: 'http://cdn2.johnnyseeds.com/images/product/large/922M.jpg',
+        inventory: 50
     },
     {
         name: 'Kale',
         spice: 'mild',
         price: 5,
-        info: {
-            background: 'Hipsters love this shit',
-            image: 'http://cdn2.johnnyseeds.com/images/product/large/363MG.jpg'
-        },
-        inventory: 100,
-        available: true
+        description: 'Hipsters love this shit',
+        image: 'http://cdn2.johnnyseeds.com/images/product/large/363MG.jpg',
+        inventory: 100
     },
     {
         name: 'Spinach',
         spice: 'mild',
         price: 3,
-        info: {
-            background: 'This should be your vegetable of choice if you are Popeye!',
-            image: 'http://cdn2.johnnyseeds.com/images/product/large/363MG.jpg'
-        },
-        inventory: 100,
-        available: true
+        description: 'This should be your vegetable of choice if you are Popeye!',
+        image: 'http://cdn2.johnnyseeds.com/images/product/large/383G.jpg',
+        inventory: 100
     },
     {
         name: 'Swiss Chard',
         spice: 'mild',
         price: 4,
-        info: {
-            background: 'Skinny watermelon',
-            image: 'http://cdn1.johnnyseeds.com/images/Product/large/702MG.jpg'
-        },
-        inventory: 100,
-        available: true
+        description: 'Skinny watermelon',
+        image: 'http://cdn1.johnnyseeds.com/images/Product/large/702MG.jpg',
+        inventory: 100
     },
     {
         name: 'Cressida Cress',
         spice: 'medium',
         price: 4,
-        info: {
-            background: 'Pretty, but bitter, like your ex',
-            image: 'http://cdn1.johnnyseeds.com/images/product/large/382M.jpg'
-        },
-        inventory: 100,
-        available: true
+        description: 'Pretty, but bitter, like your ex',
+        image: 'http://cdn1.johnnyseeds.com/images/product/large/382M.jpg',
+        inventory: 100
     },
     {
         name: 'Lettuce',
         spice: 'mild',
         price: 2,
-        info: {
-            background: 'You can put this shit on everything',
-            image: 'http://www.microgreengarden.com/photos/LETTUCE-Endive-Escarole-microgreens-Asteraceae-Family-of-Leafy-Greens/05-AsteraceaeFamilyLettuceEndive-16Lettuce-romaine-red10day.jpg'
-        },
-        inventory: 100,
-        available: true
+        description: 'You can put this shit on everything',
+        image: 'http://www.microgreengarden.com/photos/LETTUCE-Endive-Escarole-microgreens-Asteraceae-Family-of-Leafy-Greens/05-AsteraceaeFamilyLettuceEndive-16Lettuce-romaine-red10day.jpg',
+        inventory: 100
     },
     ];
 
@@ -184,7 +160,7 @@ var seedBlends = function (jArr, mArr, sArr, msArr){
     {name: "Mini Spice", price: 8, micros: msArr}
     ];
 
-    return q.invoke(Blend, 'create', blend);
+    return q.invoke(Blends, 'create', blend);
 
 };
 
