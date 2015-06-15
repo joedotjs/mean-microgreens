@@ -72,17 +72,17 @@ app.controller('BlendsController', function ($scope, BlendsFactory, MicrosFactor
     };
 
     $scope.refreshNewBlend = function (selectedMicro){
-        var indexOfSelectedMicro = $scope.newBlend.micros.indexOf(selectedMicro.id)
+        var indexOfSelectedMicro = $scope.newBlend.micros.indexOf(selectedMicro.id);
         if(selectedMicro.selected){
             if(indexOfSelectedMicro === -1){
                 $scope.newBlend.micros.push(selectedMicro.id);
             }
         } else {
             if (indexOfSelectedMicro !== -1){
-                $scope.newBlend.micros.slice(indexOfSelectedMicro, 1);
+                $scope.newBlend.micros.splice(indexOfSelectedMicro, 1);
             }
         }
-        console.log($scope.newBlend.micros);
+        // console.log($scope.newBlend.micros);
     };
 
 
