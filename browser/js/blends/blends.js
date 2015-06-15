@@ -9,8 +9,10 @@ app.config(function ($stateProvider) {
 
 });
 
-app.controller('BlendsController', function ($scope, BlendsFactory) {
-
+app.controller('BlendsController', function ($scope, BlendsFactory, MicrosFactory) {
+    $scope.allBlends;
+    $scope.allMicros;
+    $scope.selectedMicros = [];  
     $scope.blends;
     $scope.editedBlend;
     $scope.image;
@@ -18,10 +20,13 @@ app.controller('BlendsController', function ($scope, BlendsFactory) {
     $scope.whichToEdit;
     $scope.newBlend = {
         name: "kitten",
-        micros: ["557b0df30f7f2ef108051bd1", "557b0df30f7f2ef108051bd2"],
+        micros: [],
         price: 10
         };
 
+    $scope.logThis = function(something){
+        console.log(something);
+    };
     $scope.showAllBlends = function () {
         BlendsFactory.getAllBlends().then(function (blends) {
             
@@ -66,5 +71,34 @@ app.controller('BlendsController', function ($scope, BlendsFactory) {
         });
     };
 
+    $scope.refreshNewBlend = function (selectedMicro){
+        var indexOfSelectedMicro = $scope.newBlend.micros.indexOf(selectedMicro.id)
+        if(selectedMicro.selected){
+            if(indexOfSelectedMicro === -1){
+                $scope.newBlend.micros.push(selectedMicro.id);
+            }
+        } else {
+            if (indexOfSelectedMicro !== -1){
+                $scope.newBlend.micros.slice(indexOfSelectedMicro, 1);
+            }
+        }
+        console.log($scope.newBlend.micros);
+    };
+
+
+    BlendsFactory.getAllBlends().then(function (blends) {
+            $scope.allBlends = blends;
+        });
+
+    MicrosFactory.getAllMicros().then(function (micros){
+        $scope.allMicros = micros; 
+        for(var i = 0; i < $scope.allMicros.length; i++){
+            var microObject = {
+                id: $scope.allMicros[i]._id,
+                selected: false
+            };
+            $scope.selectedMicros.push(microObject);
+        }
+    });
 
 });
